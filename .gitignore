@@ -4,3 +4,7 @@
 /pip-selfcheck.json
 /.project
 /.pydevproject
+/Include/
+/Lib/
+/Scripts/
+/tcl/
