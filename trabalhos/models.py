@@ -32,7 +32,7 @@ class Evento(models.Model):
         unique_together = ('nome', 'quando')
 
     def __str__(self):
-        return '{0}, {1}, {2}'.format(self.quando, self.nome)
+        return '{0}, {1}'.format(self.nome, self.quando)
 
 class EventoTrabalho(models.Model):
     evento = models.ForeignKey(Evento, on_delete=models.CASCADE)

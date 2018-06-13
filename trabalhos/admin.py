@@ -1,5 +1,5 @@
 from django.contrib import admin
-from trabalhos.models import Trabalho, Arquivo
+from trabalhos.models import Trabalho, Arquivo, Evento, EventoTrabalho
 
 
 class TrabalhoAdmin(admin.ModelAdmin):
@@ -12,3 +12,14 @@ class ArquivoAdmin(admin.ModelAdmin):
     list_display = ('nomeArquivo', 'paginas')
     search_fields = ['arquivo',]
 admin.site.register(Arquivo, ArquivoAdmin)
+
+class EventoTrabalhoInline(admin.StackedInline):
+    model = EventoTrabalho
+    extra = 3
+
+class EventoAdmin(admin.ModelAdmin):
+    list_display = ('nome', 'quando', )
+    search_fields = ['nome', ]
+    inlines = [EventoTrabalhoInline]
+admin.site.register(Evento, EventoAdmin)
+
