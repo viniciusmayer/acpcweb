@@ -41,6 +41,3 @@ class EventoTrabalho(models.Model):
 
     class Meta:
         unique_together = ('evento', 'trabalho', 'ordem')
-
-    #def __str__(self):
-    #    return '{0}, {1}, {2}'.format(self.quando, self.nome)
