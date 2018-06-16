@@ -3,8 +3,8 @@ from trabalhos.models import Trabalho, Arquivo, Evento, EventoTrabalho
 
 
 class TrabalhoAdmin(admin.ModelAdmin):
-    list_display = ('ano', 'titulo', 'natureza', 'arquivo',)
-    list_filter = ['ano', 'natureza',]
+    list_display = ('ano', 'ano_fim', 'titulo', 'natureza', 'tag', 'arquivo',)
+    list_filter = ['ano', 'ano_fim', 'natureza', 'tag',]
     search_fields = ['titulo',]
 admin.site.register(Trabalho, TrabalhoAdmin)
 
