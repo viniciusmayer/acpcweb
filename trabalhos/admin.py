@@ -1,6 +1,11 @@
 from django.contrib import admin
-from trabalhos.models import Trabalho, Arquivo, Evento, EventoTrabalho
+from trabalhos.models import Trabalho, Arquivo, Evento, EventoTrabalho, Tag
 
+
+class TagAdmin(admin.ModelAdmin):
+    list_display = ('nome',)
+    search_fields = ['nome',]
+admin.site.register(Tag, TagAdmin)
 
 class TrabalhoAdmin(admin.ModelAdmin):
     list_display = ('ano', 'ano_fim', 'titulo', 'natureza', 'tag', 'arquivo',)

@@ -12,11 +12,18 @@ class Arquivo(models.Model):
         return self.arquivo.name[self.arquivo.name.rfind('/') + 1:len(self.arquivo.name)]
 
 
+class Tag(models.Model):
+    nome = models.CharField(max_length=255, unique=True)
+    
+    def __str__(self):
+        return '{0}'.format(self.nome)
+
+
 class Trabalho(models.Model):
     ano = models.PositiveSmallIntegerField()
     titulo = models.CharField(max_length=255)
     natureza = models.CharField(max_length=255)
-    tag = models.CharField(max_length=255)
+    tag = models.ForeignKey(Tag, on_delete=models.PROTECT)
     ano_fim = models.PositiveSmallIntegerField(null=True)
     arquivo = models.ForeignKey(Arquivo, on_delete=models.SET_NULL, null=True)
 
