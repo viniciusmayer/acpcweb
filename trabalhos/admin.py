@@ -1,9 +1,15 @@
 from django.contrib import admin
-from trabalhos.models import Trabalho, Arquivo, Evento, EventoTrabalho, Tag
+from trabalhos.models import Trabalho, Arquivo, Evento, EventoTrabalho, Tag, \
+    Natureza
 
+
+class NaturezaAdmin(admin.ModelAdmin):
+    list_display = ('nome',)
+    search_fields = ['nome',]
+admin.site.register(Natureza, NaturezaAdmin)
 
 class TagAdmin(admin.ModelAdmin):
-    list_display = ('nome',)
+    list_display = ('nome', 'ordem',)
     search_fields = ['nome',]
 admin.site.register(Tag, TagAdmin)
 

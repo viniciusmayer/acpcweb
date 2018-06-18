@@ -14,6 +14,14 @@ class Arquivo(models.Model):
 
 class Tag(models.Model):
     nome = models.CharField(max_length=255, unique=True)
+    ordem = models.PositiveSmallIntegerField(unique=True)
+    
+    def __str__(self):
+        return '{0}'.format(self.nome)
+
+
+class Natureza(models.Model):
+    nome = models.CharField(max_length=255, unique=True)
     
     def __str__(self):
         return '{0}'.format(self.nome)
@@ -21,17 +29,17 @@ class Tag(models.Model):
 
 class Trabalho(models.Model):
     ano = models.PositiveSmallIntegerField()
-    titulo = models.CharField(max_length=255)
-    natureza = models.CharField(max_length=255)
-    tag = models.ForeignKey(Tag, on_delete=models.PROTECT)
     ano_fim = models.PositiveSmallIntegerField(null=True)
+    titulo = models.CharField(max_length=255)
+    tag = models.ForeignKey(Tag, on_delete=models.PROTECT)
+    natureza = models.ForeignKey(Natureza, on_delete=models.SET_NULL, null=True)
     arquivo = models.ForeignKey(Arquivo, on_delete=models.SET_NULL, null=True)
 
     class Meta:
         unique_together = ('ano', 'titulo', 'natureza', 'tag')
         
     def __str__(self):
-        return '{0}, {1}, {2}, {3}'.format(self.ano, self.titulo, self.natureza, self.tag)
+        return '{0}, {1}, {2}, {3}'.format(self.ano, self.titulo, self.natureza.nome, self.tag.nome)
 
 
 class Evento(models.Model):
