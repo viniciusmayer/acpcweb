@@ -37,10 +37,16 @@ class Trabalho(models.Model):
 
     class Meta:
         unique_together = ('ano', 'titulo', 'natureza', 'tag')
-        
-    def __str__(self):
-        return '{0}, {1}, {2}, {3}'.format(self.ano, self.titulo, self.natureza.nome, self.tag.nome)
 
+    def __str__(self):
+        return '{0}, {1}, {2}'.format(self.ano, self.nomeTrabalho(), self.tag)
+
+    def nomeTrabalho(self):
+        nomeTrabalho = self.titulo
+        i = nomeTrabalho.find(':') 
+        if i > 0:
+            nomeTrabalho = nomeTrabalho[0:i]
+        return '{0}...'.format(nomeTrabalho if len(nomeTrabalho) < 65 else nomeTrabalho[0:64])
 
 class Evento(models.Model):
     nome = models.CharField(max_length=255)
@@ -51,7 +57,7 @@ class Evento(models.Model):
         unique_together = ('nome', 'quando')
 
     def __str__(self):
-        return '{0}, {1}'.format(self.nome, self.quando)
+        return '{0}'.format(self.nome)
 
 
 class EventoTrabalho(models.Model):

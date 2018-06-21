@@ -24,14 +24,9 @@ class ArquivoAdmin(admin.ModelAdmin):
     search_fields = ['arquivo',]
 admin.site.register(Arquivo, ArquivoAdmin)
 
-'''class EventoTrabalhoInline(admin.StackedInline):
-    model = EventoTrabalho
-    extra = 3'''
-
 class EventoAdmin(admin.ModelAdmin):
     list_display = ('nome', 'quando', )
     search_fields = ['nome', ]
-    #inlines = [EventoTrabalhoInline]
 admin.site.register(Evento, EventoAdmin)
 
 class EventoTrabalhoAdmin(admin.ModelAdmin):
