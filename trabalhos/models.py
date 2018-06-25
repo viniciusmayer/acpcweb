@@ -1,5 +1,12 @@
 from django.db import models
 
+class Entidade(models.Model):
+    nome = models.CharField(max_length=255, unique=True)
+    descricao = models.CharField(max_length=255)
+    
+    def __str__(self):
+        return '{s}'.format(s=self.nome)
+    
 
 class Arquivo(models.Model):
     arquivo = models.FileField(max_length=255, unique=True)
@@ -14,6 +21,7 @@ class Arquivo(models.Model):
 
 class Tag(models.Model):
     nome = models.CharField(max_length=255, unique=True)
+    descricao = models.CharField(max_length=255)
     ordem = models.PositiveSmallIntegerField(unique=True)
     
     def __str__(self):
@@ -22,6 +30,7 @@ class Tag(models.Model):
 
 class Natureza(models.Model):
     nome = models.CharField(max_length=255, unique=True)
+    descricao = models.CharField(max_length=255)
     
     def __str__(self):
         return '{0}'.format(self.nome)
@@ -34,6 +43,7 @@ class Trabalho(models.Model):
     tag = models.ForeignKey(Tag, on_delete=models.PROTECT)
     natureza = models.ForeignKey(Natureza, on_delete=models.SET_NULL, null=True)
     arquivo = models.ForeignKey(Arquivo, on_delete=models.SET_NULL, null=True)
+    entidade = models.ForeignKey(Entidade, on_delete=models.SET_NULL, null=True)
 
     class Meta:
         unique_together = ('ano', 'titulo', 'natureza', 'tag')

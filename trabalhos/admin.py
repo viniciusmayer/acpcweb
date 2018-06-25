@@ -1,20 +1,25 @@
 from django.contrib import admin
 from trabalhos.models import Trabalho, Arquivo, Evento, EventoTrabalho, Tag, \
-    Natureza
+    Natureza, Entidade
 
+
+class EntidadeAdmin(admin.ModelAdmin):
+    list_display = ('nome', 'descricao', )
+    search_field = ['nome', 'descricao', ]
+admin.site.register(Entidade, EntidadeAdmin)
 
 class NaturezaAdmin(admin.ModelAdmin):
-    list_display = ('nome',)
-    search_fields = ['nome',]
+    list_display = ('nome', 'descricao',)
+    search_fields = ['nome', 'descricao',]
 admin.site.register(Natureza, NaturezaAdmin)
 
 class TagAdmin(admin.ModelAdmin):
-    list_display = ('nome', 'ordem',)
-    search_fields = ['nome',]
+    list_display = ('nome', 'descricao', 'ordem',)
+    search_fields = ['nome', 'descricao',]
 admin.site.register(Tag, TagAdmin)
 
 class TrabalhoAdmin(admin.ModelAdmin):
-    list_display = ('ano', 'ano_fim', 'titulo', 'natureza', 'tag', 'arquivo',)
+    list_display = ('ano', 'titulo', 'entidade', 'natureza', 'tag', 'arquivo',)
     list_filter = ['ano', 'ano_fim', 'natureza', 'tag',]
     search_fields = ['titulo',]
 admin.site.register(Trabalho, TrabalhoAdmin)
