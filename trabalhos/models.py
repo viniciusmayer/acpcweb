@@ -60,17 +60,13 @@ class Trabalho(models.Model):
 
     class Meta:
         unique_together = ('ano', 'titulo', 'natureza', 'tag')
-        ordering = ['titulo']
+        ordering = ['ano', 'tag', 'titulo']
 
     def __str__(self):
-        return '{0}, {1}, {2}'.format(self.ano, self.nomeTrabalho(), self.tag)
+        return '{0}, {1}, {2}, {3}'.format(self.ano, self.tag, self.nomeTrabalho(), self.natureza)
 
     def nomeTrabalho(self):
-        nomeTrabalho = self.titulo
-        i = nomeTrabalho.find(':') 
-        if i > 0:
-            nomeTrabalho = nomeTrabalho[0:i]
-        return '{0}...'.format(nomeTrabalho if len(nomeTrabalho) < 65 else nomeTrabalho[0:64])
+        return self.titulo if len(self.titulo) < 71 else '{0}...'.format(self.titulo[0:70])
 
 
 class Evento(models.Model):
@@ -88,8 +84,9 @@ class Evento(models.Model):
 
 class EventoTrabalho(models.Model):
     evento = models.ForeignKey(Evento, on_delete=models.CASCADE)
-    trabalho = models.ForeignKey(Trabalho, on_delete=models.CASCADE)
+    trabalho = models.ForeignKey(Trabalho, on_delete=models.CASCADE) #limit_choices_to=Trabalho.objects.exclude(id__in=EventoTrabalho.objects.select_related('trabalho')).filter(evento=evento))
     ordem = models.PositiveSmallIntegerField()
 
     class Meta:
         unique_together = ('evento', 'trabalho', 'ordem')
+        ordering = ['ordem']

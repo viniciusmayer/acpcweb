@@ -19,8 +19,8 @@ class TagAdmin(admin.ModelAdmin):
 admin.site.register(Tag, TagAdmin)
 
 class TrabalhoAdmin(admin.ModelAdmin):
-    list_display = ('ano', 'titulo', 'entidade', 'natureza', 'tag', 'arquivo',)
-    list_filter = ['ano', 'ano_fim', 'entidade', 'natureza', 'tag',]
+    list_display = ('ano', 'tag', 'titulo', 'natureza', 'arquivo',)
+    list_filter = ['ano', 'tag', 'natureza',]
     search_fields = ['titulo',]
 admin.site.register(Trabalho, TrabalhoAdmin)
 
