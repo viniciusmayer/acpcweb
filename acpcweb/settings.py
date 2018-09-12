@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django_admin_row_actions',
+    'django_admin_row_actions', #testar também com https://github.com/crccheck/django-object-actions
 ]
 
 MIDDLEWARE = [
