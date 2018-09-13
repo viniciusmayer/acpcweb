@@ -56,14 +56,23 @@ admin.site.register(Evento, EventoAdmin)
 class EventoTrabalhoAdmin(AdminRowActionsMixin, admin.ModelAdmin):
     list_display = ('evento', 'trabalho', 'ordem',)
     list_filter = ['evento']
+    actions = ('subir_varios', 'descer_varios',)
 
     def get_row_actions(self, obj):
         row_actions = [
             {'label': 'Subir', 'action': 'subir', },
-            {'label': 'Descer', 'action': 'descer',},
+            {'label': 'Descer', 'action': 'descer', },
         ]
         row_actions += super(EventoTrabalhoAdmin, self).get_row_actions(obj)
         return row_actions
+
+    def subir_varios(self, request, queryset):
+        ids = []
+        for q in queryset:
+            ids.append(q.id)
+        ets = EventoTrabalho.objects.filter(id__in=ids).order_by('ordem')
+        for et in ets:
+            self.subir(request, et)
 
     def subir(self, request, obj):
         et = EventoTrabalho.objects.get(id=obj.id)
@@ -71,10 +80,18 @@ class EventoTrabalhoAdmin(AdminRowActionsMixin, admin.ModelAdmin):
         if net is not None:
             no = net.ordem
             net.ordem = et.ordem
+            net.save()
             et.ordem = no
             et.save()
-            net.save()
     
+    def descer_varios(self, request, queryset):
+        ids = []
+        for q in queryset:
+            ids.append(q.id)
+        ets = EventoTrabalho.objects.filter(id__in=ids).order_by('-ordem')
+        for et in ets:
+            self.descer(request, et)
+        
     def descer(self, request, obj):
         et = EventoTrabalho.objects.get(id=obj.id)
         net = EventoTrabalho.objects.filter(ordem__gt=et.ordem, evento=et.evento).order_by('ordem').first()
