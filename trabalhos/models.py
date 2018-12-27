@@ -4,6 +4,7 @@ from django.db import models
 class Entidade(models.Model):
     nome = models.CharField(max_length=255, unique=True)
     descricao = models.CharField(max_length=255)
+    ativo = models.BooleanField(default=True)
     
     class Meta:
         ordering = ['nome']
@@ -15,6 +16,7 @@ class Entidade(models.Model):
 class Arquivo(models.Model):
     arquivo = models.FileField(max_length=255, unique=True)
     paginas = models.PositiveSmallIntegerField()
+    ativo = models.BooleanField(default=True)
 
     class Meta:
         ordering = ['arquivo']
@@ -30,6 +32,7 @@ class Tag(models.Model):
     nome = models.CharField(max_length=255, unique=True)
     descricao = models.CharField(max_length=255)
     ordem = models.PositiveSmallIntegerField(unique=True)
+    ativo = models.BooleanField(default=True)
     
     class Meta:
         ordering = ['nome']
@@ -41,6 +44,7 @@ class Tag(models.Model):
 class Natureza(models.Model):
     nome = models.CharField(max_length=255, unique=True)
     descricao = models.CharField(max_length=255)
+    ativo = models.BooleanField(default=True)
     
     class Meta:
         ordering = ['nome']
@@ -57,6 +61,7 @@ class Trabalho(models.Model):
     natureza = models.ForeignKey(Natureza, on_delete=models.SET_NULL, null=True, blank=True)
     arquivo = models.ForeignKey(Arquivo, on_delete=models.SET_NULL, null=True, blank=True)
     entidade = models.ForeignKey(Entidade, on_delete=models.SET_NULL, null=True, blank=True)
+    ativo = models.BooleanField(default=True)
 
     class Meta:
         unique_together = ('ano', 'titulo', 'natureza', 'tag')
@@ -73,6 +78,7 @@ class Evento(models.Model):
     nome = models.CharField(max_length=255)
     quando = models.DateField()
     trabalhos = models.ManyToManyField(Trabalho, through='EventoTrabalho')
+    ativo = models.BooleanField(default=True)
     
     class Meta:
         unique_together = ('nome', 'quando')
@@ -86,6 +92,7 @@ class EventoTrabalho(models.Model):
     evento = models.ForeignKey(Evento, on_delete=models.CASCADE)
     trabalho = models.ForeignKey(Trabalho, on_delete=models.CASCADE) #limit_choices_to=Trabalho.objects.exclude(id__in=EventoTrabalho.objects.select_related('trabalho')).filter(evento=evento))
     ordem = models.PositiveSmallIntegerField()
+    ativo = models.BooleanField(default=True)
 
     class Meta:
         unique_together = ('evento', 'trabalho', 'ordem')
